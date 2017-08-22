@@ -1,0 +1,609 @@
+#:kivy 1.9.1
+
+<AimBall>:
+  size: root.parent.width * 0.025,0
+  canvas.before:
+    PushMatrix
+    Rotate:
+      angle: -self.rotation
+      origin: self.center_x,self.y
+    Color:
+      rgba: 1,1,1,1
+    Rectangle:
+      source: 'assets/pointers/pointer_circle.png'
+      pos: self.pos
+      size: self.size
+  canvas.after:
+    PopMatrix
+
+<Ball>:
+  size: root.parent.width * 0.05,root.parent.width * 0.05
+  canvas.before:
+    PushMatrix
+    Rotate:
+      angle: self.rotation
+      origin: self.center
+    Color:
+      rgba: 1,1,1,1
+    Ellipse:
+      source: self.tex
+      size: self.size
+      pos: self.pos
+  canvas.after:
+    PopMatrix
+
+<Platform>:
+  size: root.parent.width * 1 / 6,root.parent.height * 0.02
+  canvas.before:
+    PushMatrix
+    Rotate:
+      angle: self.rotation*180
+      origin: self.center_x,self.y
+    Color:
+      rgb: 1,1,1,1
+    Rectangle:
+      source: self.tex
+      pos: self.pos
+      size: self.size
+  canvas.after:
+    PopMatrix
+
+<Spike>:
+  size: root.parent.width * 1 / 18,root.parent.width * 1 / 18
+  canvas:
+    Color:
+      rgba: 1,1,1,1
+    Ellipse:
+      source: 'assets/levels/spike.png'
+      pos: self.pos
+      size: self.size
+
+<Coin>:
+  size: root.parent.width * 1 / 18,root.parent.width * 1 / 18
+  canvas:
+    Color:
+      rgba: 1,1,1,1
+    Ellipse:
+      source: 'assets/levels/coin.png'
+      pos: self.pos
+      size: self.size
+
+<BlipGame>:
+  platform: platform
+  ball: ball
+  aimball: aimball
+  debug: debug
+  tutorial: tutorial
+  tutorial2: tutorial2
+  coin: coin
+
+  s1: spike1
+  s2: spike2
+  s3: spike3
+  s4: spike4
+  s5: spike5
+  s6: spike6
+  s7: spike7
+  s8: spike8
+  s9: spike9
+  s10: spike10
+
+  canvas:
+    Color:
+      rgba: 1,1,1,0.1
+    Rectangle:
+      size: self.size
+      pos: 0,0
+    Color:
+      rgba: 1,1,1,0.05
+    Rectangle:
+      size: self.width,6
+      pos: 0,self.height * 0.1 - 3
+
+  AimBall:
+    id: aimball
+    y: ball.center_y
+    center_x: ball.center_x
+  Ball:
+    id: ball
+    center: root.width * 1 / 8, root.height * 0.1
+  Platform:
+    id: platform
+    pos: 0,root.height * 8 / 10
+
+  Coin:
+    id: coin
+    pos: 0-self.width,0-self.height
+
+  Spike:
+    id: spike1
+    pos: -root.width,-root.height
+  Spike:
+    id: spike2
+    pos: -root.width,-root.height
+  Spike:
+    id: spike3
+    pos: -root.width,-root.height
+  Spike:
+    id: spike4
+    pos: -root.width,-root.height
+  Spike:
+    id: spike5
+    pos: -root.width,-root.height
+  Spike:
+    id: spike6
+    pos: -root.width,-root.height
+  Spike:
+    id: spike7
+    pos: -root.width,-root.height
+  Spike:
+    id: spike8
+    pos: -root.width,-root.height
+  Spike:
+    id: spike9
+    pos: -root.width,-root.height
+  Spike:
+    id: spike10
+    pos: -root.width,-root.height
+
+  Label:
+    center: root.width / 2,root.height * 0.8
+    font_name: 'odin'
+    text: str(platform.rotation)
+    font_size: root.width / 10
+  Label:
+    id: debug
+    pos: 0,root.height-self.height
+    text: ''
+    font_size: 10
+  Label:
+    font_size: root.width * 1 / 24
+    font_name: 'gemelli'
+    text: 'Your goal is\nto reach the\nplatform'
+    id: tutorial
+    pos: root.width * 1 / 12,root.height * 0.6
+    halign: 'center'
+  Label:
+    id: tutorial2
+    font_size: root.width * 0.025
+    font_name: 'gemelli'
+    center: root.center_x,root.center_y * 9 / 10
+    text: 'Tap and hold to aim the ball'
+
+<Title>:
+  size: root.parent.width * 1 / 2,root.parent.width * 1 / 3
+  canvas:
+    Color:
+      rgba: 1,1,1,1
+    Rectangle:
+      source: 'assets/gui/blip_title.png'
+      size: self.size
+      pos: self.pos
+
+<Dot>:
+  size: root.parent.width * 1 / 20,root.parent.width * 1 / 20
+  canvas:
+    Color:
+      rgba: 1,1,1,1
+    Ellipse:
+      source: 'assets/gui/blip_title_dot.png'
+      size: self.size
+      pos: self.pos
+
+<Speaker>:
+  size: root.parent.width * 1 / 12,root.parent.width * 1 / 12
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.no_audio()
+    pos: self.parent.pos
+    size: self.parent.size
+    canvas:
+      Color:
+        rgba: 1,1,1,1
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+        source: self.parent.speaker_source
+
+<Music>:
+  size: root.parent.width * 1 / 12,root.parent.width * 1 / 12
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.no_audio()
+    pos: self.parent.pos
+    size: self.parent.size
+    canvas:
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+        source: self.parent.speaker_source
+
+<LinkButton>:
+  img: self.img
+  url: self.url
+  col: self.col
+  size: root.parent.width * 1 / 12,root.parent.width * 1 / 12
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.link(self.parent.url)
+    pos: self.parent.pos
+    size: self.parent.size
+    canvas:
+      Color:
+        rgba: self.parent.col
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+      Color:
+        rgba: 1,1,1,1
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+        source: self.parent.img
+
+<InfoButton>:
+  size: root.parent.width * 1 / 12, root.parent.width * 1 / 12
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.change()
+    pos: self.parent.pos
+    size: self.parent.size
+    canvas:
+      Color:
+        rgba: 1,1,1,1
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+        texture: self.parent.icon.texture
+
+
+<BackButton>:
+  size: root.parent.width * 1 / 20,root.parent.width * 1 / 20
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.back()
+    pos: self.parent.pos
+    size: self.parent.size
+    canvas:
+      Color:
+        rgba: 1,1,1,1
+      Rectangle:
+        pos: self.parent.pos
+        size: self.parent.size
+        source: 'assets/gui/back.png'
+
+<TitleCanvas>:
+  label_1: label_1
+
+  canvas:
+    Color:
+      rgba: 1,1,1,0.1
+    Rectangle:
+      size: self.width,self.height
+      pos: 0,0
+
+  Title:
+    id: title
+    center: root.center_x,root.height * 3 / 4
+  Dot:
+    id: dot
+    center: title.center_x + title.center_x * 1 / 16,title.y + title.height * 7 / 8
+
+  LinkButton:
+    img: 'assets/gui/no_ads.png'
+    url: 'https://play.google.com/store/apps/details?id=org.swappt.blipapppaid'
+    center: root.width * 0.24,root.height * 0.15
+
+  InfoButton:
+    center: root.width * 0.42, root.height * 0.15
+
+  Music:
+    center: root.width * 0.58,root.height * 0.15
+
+  Speaker:
+    center: root.width * 0.76,root.height * 0.15
+
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.play()
+    center: root.center_x, root.center_y * 0.8
+    size: root.width * 0.65,root.height * 0.15
+    canvas:
+      Color:
+        rgba: 0.133,0.709,0.45,1
+      RoundedRectangle:
+        size: root.width * 0.6,root.height * 1 / 8
+        pos: root.width * 0.2,root.height * 0.4
+        radius: [(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4)]
+    Label:
+      text: 'PLAY'
+      id: label_1
+      font_name: 'odin'
+      color: 1,1,1,1
+      font_size: self.parent.width * 1 / 6
+      center: root.center_x,root.center_y * 0.905
+
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.nav('store')
+    center: root.center_x, root.center_y * 0.5
+    size: root.width * 0.65,root.height * 0.15
+    canvas:
+      Color:
+        rgba: 0,0.66,0.615,1
+      RoundedRectangle:
+        size: root.width * 0.6,root.height * 1 / 8
+        pos: root.width * 0.2,root.height * 0.25
+        radius: [(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4)]
+    Label:
+      text: 'STORE'
+      font_name: 'odin'
+      color: 1,1,1,1
+      font_size: self.parent.width * 1 / 6
+      center: root.center_x,root.center_y * 0.605
+
+<ContinueButton>:
+  Button:
+    size: self.parent.size
+    pos: self.parent.pos
+    background_color: (0, 0, 0, 0)
+    on_press: self.parent.back()
+    canvas:
+      Color:
+        rgba: 1,1,1,1
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+        angle_start: self.parent.start_angle
+        angle_end: 360
+      Color:
+        rgba: 0.1,0.1,0.1,1
+      Ellipse:
+        pos: self.parent.x + 10, self.parent.y + 10
+        size: self.parent.width - 20, self.parent.height - 20
+
+<GameOver>:
+  hs: hs
+  current: current
+  continuebutton: continuebutton
+
+  canvas:
+    Color:
+      rgba: 1,1,1,0.1
+    Rectangle:
+      size: self.width,self.height
+      pos: 0,0
+
+  Label:
+    id: current
+    text: 'YOU SCORED 0'
+    font_name: 'odin'
+    center: root.center_x,root.height * 7 / 8
+    font_size: root.width * 1 / 9
+
+  Label:
+    id: hs
+    text: 'BEST: ' + str(self.parent.d.get('highscore')['value'])
+    font_name: 'odin'
+    center: root.center_x,root.height * 6 / 8
+    font_size: root.width * 1 / 12
+
+  ContinueButton:
+    contlabel: contlabel
+    label: label
+
+    id: continuebutton
+    size: root.width * 0.2, root.width * 0.2
+    pos: root.center_x - root.width * 1 / 12,root.height * 9 / 16 - root.width * 1 / 12
+    Label:
+      id: contlabel
+      halign: 'center'
+      text: 'CONTINUE\nPLAYING'
+      font_name: 'odin'
+      font_size: self.parent.width * 1 / 6
+      center: self.parent.center
+    Label:
+      id: label
+      halign: 'center'
+      text: 'NO MORE\nRETRIES TODAY'
+      font_name: 'odin'
+      font_size: self.parent.width * 1 / 6
+      center: self.parent.center
+      opacity: 0
+
+  Button:
+    background_color: (0, 0, 0, 0)
+    on_press: self.parent.play()
+    center: root.center_x, root.center_y * 0.6
+    size: root.width * 0.8,root.height * 0.2
+    canvas:
+      Color:
+        rgba: 0.133,0.709,0.45,1
+      RoundedRectangle:
+        size: root.width * 0.6,root.height * 1 / 8
+        pos: root.width * 0.2,root.height * 0.3
+        radius: [(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4)]
+    Label:
+      text: 'REPLAY'
+      font_name: 'odin'
+      color: 1,1,1,1
+      font_size: self.parent.width * 1 / 6
+      center: root.center_x,root.center_y * 68 / 97
+
+  Button:
+    background_color: (0, 0, 0, 0)
+    on_press: self.parent.nav('menu')
+    center: root.center_x, root.center_y * 0.2
+    size: root.width * 0.8,root.height * 0.2
+    canvas:
+      Color:
+        rgba: 0,0.66,0.615,1
+      RoundedRectangle:
+        size: root.width * 0.6,root.height * 1 / 8
+        pos: root.width * 0.2,root.height * 0.1
+        radius: [(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4),(self.height * 1/4,self.height * 1/4)]
+    Label:
+      text: 'MENU'
+      font_name: 'odin'
+      color: 1,1,1,1
+      font_size: self.parent.width * 1 / 6
+      center: root.center_x,root.center_y * 57 / 190
+
+<StoreScreen>:
+  scroll: scroll
+  coincounter: coincounter
+
+  canvas:
+    Color:
+      rgba: 1,1,1,0.1
+    Rectangle:
+      pos: 0,0
+      size:self.width,self.height
+    Color:
+      rgba: 1,1,1,1
+    Rectangle:
+      size:self.width * 0.6,self.width * 0.2
+      pos:self.width * 0.2,self.height - self.width * 0.25
+      source:'assets/store/title.png'
+    Color:
+      rgba: 0,0,0,1
+    Rectangle:
+      size: self.width,self.width * 0.1333
+      pos: 0,self.height - self.width * 0.25 - self.width * 0.1333 - self.height * 1 / 100
+
+  BackButton:
+    id: back
+    pos:0,root.height-self.height
+
+  AdButton:
+    size: root.width * 0.4, root.width * 0.1333
+    pos: root.width * 0.3,root.height - root.width * 0.25 - root.width * 0.1333 - root.height * 1 / 100
+
+  StoreScroll:
+    id: scroll
+    size: root.width, root.height
+    pos: 0,0
+
+  Label:
+    id: coincounter
+    text:'COINS: 0'
+    font_name:'odin'
+    font_size: root.height * 1 / 16
+    center: root.center_x,root.center_y + root.height * 1 / 24
+
+<AdButton>:
+  size: self.size
+  pos: self.pos
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.do_ad()
+    pos: self.parent.pos
+    size: self.parent.size
+    canvas:
+      Color:
+        rgba: 1,1,1,1
+      Rectangle:
+        pos: self.parent.pos
+        size: self.parent.size
+        source: self.parent.img
+
+<StoreScroll>:
+  size: self.size
+  pos: self.pos
+
+<StoreButtons>:
+  size: self.size
+  Button:
+    background_color: 0,0,0,0
+    on_press: self.parent.purchase()
+    pos: self.parent.pos
+    size: self.parent.size
+    height: self.width
+    canvas:
+      Color:
+        rgba: 1,1,1,1
+      Ellipse:
+        pos: self.parent.pos
+        size: self.parent.size
+        source: self.parent.tex
+      Ellipse:
+        pos: self.parent.x - self.parent.width * 0.025,self.parent.y - self.parent.height * 0.025
+        size: self.parent.width * 1.05,self.parent.height * 1.05
+        source: self.parent.lock
+
+<Tutorial>:
+  size: self.size
+  pos: self.pos
+  canvas:
+    Color:
+      rgba: 1,1,1,1
+    Ellipse:
+      texture: self.tut.texture
+      pos: self.pos
+      size: self.width,self.width
+
+<Information>:
+  tut: tut
+
+  canvas:
+    Color:
+      rgba: 1,1,1,0.1
+    Rectangle:
+      pos: 0,0
+      size: root.size
+
+  BackButton:
+    id: back
+    pos:0,root.height-self.height
+
+  Tutorial:
+    id: tut
+    size: root.width * 0.8,root.width*0.8
+    pos: root.width * 0.1,root.height - root.width * 0.9
+
+  LinkButton:
+    img: 'assets/gui/twitter.png'
+    url: 'https://twitter.com/swapptorg'
+    pos: root.width * 1 / 8 + self.width + 10,root.height * 0.02
+
+  LinkButton:
+    img: 'assets/gui/instagram.png'
+    url: 'https://instagram.com/swapptorganisation'
+    pos: root.width * 1 / 8,root.height * 0.02
+
+  LinkButton:
+    img: 'assets/gui/playstore_button.png'
+    url: 'https://play.google.com/store/apps/details?id=org.swappt.blipapp'
+    pos: root.width * 3 / 8,root.height * 0.02
+
+<Manager>:
+  go: GOmenu
+  menu: menu
+  game: game
+  store: store
+  info: info
+
+  Screen:
+    name: 'menu'
+    TitleCanvas:
+      id: menu
+
+  Screen:
+    name: 'GOmenu'
+    GameOver:
+      id: GOmenu
+
+  Screen:
+    name: 'game'
+    BlipGame:
+      id: game
+
+  Screen:
+    name: 'store'
+    StoreScreen:
+      id: store
+
+  Screen:
+    name: 'info'
+    Information:
+      id: info

@@ -1,0 +1,1 @@
+from os import listdir as l;j=input('Enter the directory you want to produce files for > ');w=input('Enter what you want appending to the files > ');[open(j + '/' + fi + '.meta','a').write(w) for fi in l(j) if not fi.endswith('meta')]

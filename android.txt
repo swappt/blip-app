@@ -1,0 +1,3 @@
+title=Blip
+author=Swappt
+orientation=portrait

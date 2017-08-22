@@ -1,0 +1,9 @@
+*.db
+*buildozer/*
+*.pyc
+*pycache*
+data
+*.json
+blip/*
+bin/*
+spikes
